@@ -1,101 +1,107 @@
-#pragma once
+ï»¿#pragma once
 
-#include<iostream>
 #include "BST.h"
+#include <iostream>
 
-// Æ½ºâ¶ş²æËÑË÷Ê÷
-template<class T>
+// å¹³è¡¡äºŒå‰æœç´¢æ ‘
+template <class T>
 class BBST : public BST<T> {
-protected:
+  protected:
     BinNode<T>* leftRotation(BinNode<T>*);
     BinNode<T>* rightRotation(BinNode<T>*);
     BinNode<T>* leftRightRotation(BinNode<T>*);
     BinNode<T>* rightLeftRotation(BinNode<T>*);
-    void inOrder(BinNode<T>*) const;
-    void preOrder(BinNode<T>*) const;
-    void postOrder(BinNode<T>*) const;
-    void visitor(BinNode<T>*) const;
+    void        inOrder(BinNode<T>*) const;
+    void        preOrder(BinNode<T>*) const;
+    void        postOrder(BinNode<T>*) const;
+    void        visitor(BinNode<T>*) const;
     BinNode<T>* insert(const T&);
     BinNode<T>* remove(BinNode<T>*);
-    int height(BinNode<T>*) const; // ½áµã¸ß¶È
-    void updateHeight(BinNode<T>*); // ¸üĞÂ½áµã¸ß¶È
-public:
+    int         height(BinNode<T>*) const; // ç»“ç‚¹é«˜åº¦
+    void        updateHeight(BinNode<T>*); // æ›´æ–°ç»“ç‚¹é«˜åº¦
+  public:
     BinNode<T>* Max() const;
     BinNode<T>* Min() const;
     BinNode<T>* search(const T&);
-    bool erase(const T&);
+    bool        erase(const T&);
     BinNode<T>* add(const T&);
-    int Size() const { return this->size; }; // ·µ»Ø½áµãÊı
+    int         Size() const {
+        return this->size;
+    }; // è¿”å›ç»“ç‚¹æ•°
     void inOrder() const {
-        if (this->root) inOrder(this->root);
-        else std::cout << "Null";
-    }; // ÖĞĞò±éÀú
+        if (this->root)
+            inOrder(this->root);
+        else
+            std::cout << "Null";
+    }; // ä¸­åºéå†
     void preOrder() const {
-        if (this->root) preOrder(this->root);
-        else std::cout << "Null";
-    }; // Ç°Ğò±éÀú
+        if (this->root)
+            preOrder(this->root);
+        else
+            std::cout << "Null";
+    }; // å‰åºéå†
     void postOrder() const {
-        if (this->root) postOrder(this->root);
-        else std::cout << "Null";
-    }; // ºóĞò±éÀú
+        if (this->root)
+            postOrder(this->root);
+        else
+            std::cout << "Null";
+    }; // ååºéå†
 };
 
-// ²éÕÒ×î´óÖµ½áµã
-template<class T>
+// æŸ¥æ‰¾æœ€å¤§å€¼ç»“ç‚¹
+template <class T>
 BinNode<T>* BBST<T>::Max() const {
-    BinNode<T>* p = this->root, * pp = nullptr;
+    BinNode<T>*p = this->root, *pp = nullptr;
     while (p) {
         pp = p;
-        p = p->right;
+        p  = p->right;
     }
     return pp;
 }
 
-// ²éÕÒ×îĞ¡Öµ½áµã
-template<class T>
+// æŸ¥æ‰¾æœ€å°å€¼ç»“ç‚¹
+template <class T>
 BinNode<T>* BBST<T>::Min() const {
-    BinNode<T>* p = this->root, * pp = nullptr;
+    BinNode<T>*p = this->root, *pp = nullptr;
     while (p) {
         pp = p;
-        p = p->left;
+        p  = p->left;
     }
     return pp;
 }
 
-// ×óĞı
-template<class T>
+// å·¦æ—‹
+template <class T>
 BinNode<T>* BBST<T>::leftRotation(BinNode<T>* node) {
-    BinNode<T>* child = node->right,
-        * parent = node->parent;
+    BinNode<T>*child = node->right, *parent = node->parent;
 
     node->right = child->left;
-    // ½áµã²»Îª¿Õ, »¹ÒªÖØĞÂ¹ØÁªÆä¸¸½áµã
+    // ç»“ç‚¹ä¸ä¸ºç©º, è¿˜è¦é‡æ–°å…³è”å…¶çˆ¶ç»“ç‚¹
     if (node->right) node->right->parent = node;
-    
-    child->left = node;
+
+    child->left  = node;
     node->parent = child;
-    
+
     child->parent = parent;
-    
-    // ¸üĞÂ½áµã¸ß¶È
+
+    // æ›´æ–°ç»“ç‚¹é«˜åº¦
     updateHeight(node);
     updateHeight(child);
 
     return child;
 }
 
-// ÓÒĞı
-template<class T>
+// å³æ—‹
+template <class T>
 BinNode<T>* BBST<T>::rightRotation(BinNode<T>* node) {
-    BinNode<T>* child = node->left,
-        *parent = node->parent;
+    BinNode<T>*child = node->left, *parent = node->parent;
 
     node->left = child->right;
     if (node->left) node->left->parent = node;
-    
+
     child->right = node;
     node->parent = child;
-    
+
     child->parent = parent;
 
     updateHeight(node);
@@ -104,22 +110,22 @@ BinNode<T>* BBST<T>::rightRotation(BinNode<T>* node) {
     return child;
 }
 
-// ÏÈ×óĞıºóÓÒĞı
-template<class T>
+// å…ˆå·¦æ—‹åå³æ—‹
+template <class T>
 BinNode<T>* BBST<T>::leftRightRotation(BinNode<T>* node) {
     node->left = leftRotation(node->left);
     return rightRotation(node);
 }
 
-// ÏÈÓÒĞıºó×óĞı
-template<class T>
+// å…ˆå³æ—‹åå·¦æ—‹
+template <class T>
 BinNode<T>* BBST<T>::rightLeftRotation(BinNode<T>* node) {
     node->right = rightRotation(node->right);
     return leftRotation(node);
 }
 
-// ÖĞĞò±éÀú
-template<class T>
+// ä¸­åºéå†
+template <class T>
 void BBST<T>::inOrder(BinNode<T>* node) const {
     if (node) {
         inOrder(node->left);
@@ -128,9 +134,9 @@ void BBST<T>::inOrder(BinNode<T>* node) const {
     }
 }
 
-// Ç°Ğò±éÀú
-template<class T>
-void BBST<T>::preOrder(BinNode<T>* node) const  {
+// å‰åºéå†
+template <class T>
+void BBST<T>::preOrder(BinNode<T>* node) const {
     if (node) {
         visitor(node);
         preOrder(node->left);
@@ -138,9 +144,9 @@ void BBST<T>::preOrder(BinNode<T>* node) const  {
     }
 }
 
-// ºóĞò±éÀú
-template<class T>
-void BBST<T>::postOrder(BinNode<T>* node) const  {
+// ååºéå†
+template <class T>
+void BBST<T>::postOrder(BinNode<T>* node) const {
     if (node) {
         postOrder(node->left);
         postOrder(node->right);
@@ -148,66 +154,65 @@ void BBST<T>::postOrder(BinNode<T>* node) const  {
     }
 }
 
-// ²é¿´½áµãĞÅÏ¢
-template<class T>
+// æŸ¥çœ‹ç»“ç‚¹ä¿¡æ¯
+template <class T>
 inline void BBST<T>::visitor(BinNode<T>* node) const {
     std::cout << node->data << "(" << node->height << ") ";
 }
 
-// É¾³ı
-template<class T>
+// åˆ é™¤
+template <class T>
 BinNode<T>* BBST<T>::remove(BinNode<T>* x) {
-    BinNode<T>* succ = nullptr, * w = x;
+    BinNode<T>*succ = nullptr, *w = x;
 
-    if (w->left == nullptr || w->right == nullptr) { // µ¥·ÖÖ§½á¹¹
-        if (w->left == nullptr) succ = w->right;
-        else succ = x->left;
+    if (w->left == nullptr || w->right == nullptr) { // å•åˆ†æ”¯ç»“æ„
+        if (w->left == nullptr)
+            succ = w->right;
+        else
+            succ = x->left;
 
         if (w->isLeftChild()) {
             w->parent->left = succ;
-        }
-        else if (w->isRightChild()) {
+        } else if (w->isRightChild()) {
             w->parent->right = succ;
-        }
-        else {
+        } else {
             this->root = succ;
         }
-    }
-    else { // Ë«·ÖÖ§½á¹¹
+    } else { // åŒåˆ†æ”¯ç»“æ„
         w = w->right;
-        
-        // ±éÀúÖÁÓÒ×ÓÊ÷×îĞ¡Öµ½áµã
+
+        // éå†è‡³å³å­æ ‘æœ€å°å€¼ç»“ç‚¹
         while (w->left) {
             w = w->left;
         }
 
-        // ½»»»±»É¾½áµãÓëÓÒ×ÓÊ÷×îĞ¡Öµ½áµãµÄÊı¾İ
+        // äº¤æ¢è¢«åˆ ç»“ç‚¹ä¸å³å­æ ‘æœ€å°å€¼ç»“ç‚¹çš„æ•°æ®
         std::swap(x->data, w->data);
 
         BinNode<T>* u = w->parent;
-        
-        // Êµ¼Ê±»É¾½áµãµÄ×ÓÊ÷½»¸øÊµ¼Ê±»É¾½áµãµÄ¸¸½áµã
+
+        // å®é™…è¢«åˆ ç»“ç‚¹çš„å­æ ‘äº¤ç»™å®é™…è¢«åˆ ç»“ç‚¹çš„çˆ¶ç»“ç‚¹
         ((u == x) ? u->right : u->left) = succ = w->right;
     }
 
     this->hot = w->parent;
 
     if (succ) succ->parent = this->hot;
-    
-    delete w; // É¾³ı×îÖÕ½áµã
-    
-    return succ; // ·µ»Ø´úÌæÕß
+
+    delete w; // åˆ é™¤æœ€ç»ˆç»“ç‚¹
+
+    return succ; // è¿”å›ä»£æ›¿è€…
 }
 
-template<class T>
+template <class T>
 bool BBST<T>::erase(const T& e) {
     BinNode<T>* x = search(e);
-    if (!x) return false; // Ä¿±ê²»´æÔÚ
+    if (!x) return false; // ç›®æ ‡ä¸å­˜åœ¨
 
     remove(x);
     if (--this->size <= 0) return true;
 
-    // ÍùÉÏ¸üĞÂ¸¸½áµã¸ß¶È
+    // å¾€ä¸Šæ›´æ–°çˆ¶ç»“ç‚¹é«˜åº¦
     for (BinNode<T>* p = this->hot; p; p = p->parent) {
         updateHeight(p);
     }
@@ -215,55 +220,54 @@ bool BBST<T>::erase(const T& e) {
     return true;
 }
 
-// »ñÈ¡½áµãµÄ¸ß¶È
-template<class T>
+// è·å–ç»“ç‚¹çš„é«˜åº¦
+template <class T>
 int BBST<T>::height(BinNode<T>* node) const {
-    if (node) return node->height;
-    else return 0;
+    if (node)
+        return node->height;
+    else
+        return 0;
 }
 
-// ¸üĞÂ½áµã¸ß¶È
-template<class T>
+// æ›´æ–°ç»“ç‚¹é«˜åº¦
+template <class T>
 void BBST<T>::updateHeight(BinNode<T>* node) {
-    int h1 = height(node->left),
-        h2 = height(node->right);
+    int h1 = height(node->left), h2 = height(node->right);
     node->height = h1 > h2 ? h1 + 1 : h2 + 1;
-}; 
+};
 
-// ËÑË÷
-template<class T>
+// æœç´¢
+template <class T>
 BinNode<T>* BBST<T>::search(const T& e) {
     BinNode<T>* p = this->root;
-    this->hot = nullptr;
+    this->hot     = nullptr;
 
     while (p) {
         if (e == p->data) {
             return p;
-        }
-        else {
+        } else {
             this->hot = p;
             if (e < p->data) {
                 p = p->left;
-            }
-            else if (e > p->data) {
+            } else if (e > p->data) {
                 p = p->right;
             }
         }
     }
-    // ÎŞÆ¥Åä¶ÔÏó
+    // æ— åŒ¹é…å¯¹è±¡
     return nullptr;
 }
 
-// ²åÈë
-template<class T>
+// æ’å…¥
+template <class T>
 BinNode<T>* BBST<T>::add(const T& e) {
     BinNode<T>* x = search(e);
-    if (x) return x; // Èç¹û½áµã´æÔÚ, ·µ»Ø¸Ã½áµã
+    if (x) return x; // å¦‚æœç»“ç‚¹å­˜åœ¨, è¿”å›è¯¥ç»“ç‚¹
 
-    // ½áµã²»´æÔÚ, ²åÈëĞÂÖµ
+    // ç»“ç‚¹ä¸å­˜åœ¨, æ’å…¥æ–°å€¼
     x = insert(e);
 
-    // ÏòÉÏ¸üĞÂ½áµã x µÄËùÓĞ×æÏÈµÄ¸ß¶È
+    // å‘ä¸Šæ›´æ–°ç»“ç‚¹ x çš„æ‰€æœ‰ç¥–å…ˆçš„é«˜åº¦
     for (BinNode<T>* p = x->parent; p; p = p->parent) {
         updateHeight(p);
     }
@@ -271,19 +275,17 @@ BinNode<T>* BBST<T>::add(const T& e) {
     return x;
 }
 
-template<class T>
+template <class T>
 BinNode<T>* BBST<T>::insert(const T& e) {
     BinNode<T>* x = new BinNode<T>(e, this->hot);
-    
+
     if (!x->isRoot()) {
         if (x->data > this->hot->data) {
             this->hot->right = x;
-        }
-        else {
+        } else {
             this->hot->left = x;
         }
-    }
-    else {
+    } else {
         this->root = x;
     }
 

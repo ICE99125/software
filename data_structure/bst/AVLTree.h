@@ -1,79 +1,79 @@
-#pragma once
+ï»¿#pragma once
 
 #include "BBST.h"
 
-// AVL Ê÷
-template<class T>
-class AVLTree: public BBST<T> {
+// AVL æ ‘
+template <class T>
+class AVLTree : public BBST<T> {
     bool isBalence(BinNode<T>*) const;
     void reBalence(BinNode<T>*);
-    int bf(BinNode<T>* node) const;
-public:
-    bool erase(const T&);
+    int  bf(BinNode<T>* node) const;
+
+  public:
+    bool        erase(const T&);
     BinNode<T>* add(const T&);
 };
 
-// ½áµãÊÇ·ñÆ½ºâ
-template<class T>
+// ç»“ç‚¹æ˜¯å¦å¹³è¡¡
+template <class T>
 bool AVLTree<T>::isBalence(BinNode<T>* node) const {
     int delta = bf(node);
-    if (delta > -2 && delta < 2) return true;
-    else return false;
+    if (delta > -2 && delta < 2)
+        return true;
+    else
+        return false;
 }
 
-// ½áµãÖØĞÂÆ½ºâ
-template<class T>
+// ç»“ç‚¹é‡æ–°å¹³è¡¡
+template <class T>
 void AVLTree<T>::reBalence(BinNode<T>* node) {
-    // ÏÈÅĞ¶Ï node ÊÇ¸ù, ×óº¢×Ó»¹ÊÇÓÒº¢×Ó
+    // å…ˆåˆ¤æ–­ node æ˜¯æ ¹, å·¦å­©å­è¿˜æ˜¯å³å­©å­
     bool left = false, right = false;
-    if (node->isLeftChild()) left = true;
-    else if (node->isRightChild()) right = true;
+    if (node->isLeftChild())
+        left = true;
+    else if (node->isRightChild())
+        right = true;
 
-    BinNode<T>* n = nullptr, * p = node->parent;
+    BinNode<T>*n = nullptr, *p = node->parent;
 
-    if (bf(node) == 2) { // Æ½ºâÒò×ÓÎª 2
+    if (bf(node) == 2) { // å¹³è¡¡å› å­ä¸º 2
         if (this->height(node->left->left) >= this->height(node->left->right)) {
-            // node ×óº¢×ÓµÄ×ó×ÓÊ÷¸ü¸ß, ½øĞĞÓÒĞı
+            // node å·¦å­©å­çš„å·¦å­æ ‘æ›´é«˜, è¿›è¡Œå³æ—‹
             n = this->rightRotation(node);
-        }
-        else {
-            // ÏÈ×óĞıºóÓÒĞı
+        } else {
+            // å…ˆå·¦æ—‹åå³æ—‹
             n = this->leftRightRotation(node);
         }
-    }
-    else {
+    } else {
         if (this->height(node->right->left) <= this->height(node->right->right)) {
-            // node ÓÒº¢×ÓµÄÓÒ×ÓÊ÷¸ü¸ß, ½øĞĞ×óĞı
+            // node å³å­©å­çš„å³å­æ ‘æ›´é«˜, è¿›è¡Œå·¦æ—‹
             n = this->leftRotation(node);
-        }
-        else {
-            // ÏÈÓÒĞıºó×óĞı
+        } else {
+            // å…ˆå³æ—‹åå·¦æ—‹
             n = this->rightLeftRotation(node);
         }
     }
 
     if (left) {
         p->left = n;
-    }
-    else if (right) {
+    } else if (right) {
         p->right = n;
-    }
-    else {
+    } else {
         this->root = n;
     }
 }
 
-// ·µ»Ø½áµãµÄÆ½ºâÒò×Ó
-template<class T>
+// è¿”å›ç»“ç‚¹çš„å¹³è¡¡å› å­
+template <class T>
 int AVLTree<T>::bf(BinNode<T>* node) const {
     return this->height(node->left) - this->height(node->right);
 }
 
-// É¾³ı
-template<class T>
+// åˆ é™¤
+template <class T>
 bool AVLTree<T>::erase(const T& e) {
     BinNode<T>* x = this->search(e);
-    if (!x) return false; // ÔªËØ²»´æÔÚ, É¾³ıÊ§°Ü
+    if (!x) return false; // å…ƒç´ ä¸å­˜åœ¨, åˆ é™¤å¤±è´¥
 
     this->remove(x);
     if (--this->size <= 0) return true;
@@ -88,26 +88,25 @@ bool AVLTree<T>::erase(const T& e) {
     return true;
 }
 
-// Ìí¼Ó
-template<class T>
+// æ·»åŠ 
+template <class T>
 BinNode<T>* AVLTree<T>::add(const T& e) {
     BinNode<T>* x = this->search(e);
-    if (x) return x; // Èç¹û½áµã´æÔÚ, ·µ»Ø¸Ã½áµã
+    if (x) return x; // å¦‚æœç»“ç‚¹å­˜åœ¨, è¿”å›è¯¥ç»“ç‚¹
 
-    x = this->insert(e); // ²åÈëĞÂÖµ
-    
+    x = this->insert(e); // æ’å…¥æ–°å€¼
+
     for (BinNode<T>* p = x->parent; p; p = p->parent) {
         if (!isBalence(p)) {
             reBalence(p);
-            // Ö»ÒªÄ³¸ö²»Æ½ºâ½áµãÆ½ºâÁË
-            // Æä¶ÔÓ¦×æÏÈ¶¼»áÆ½ºâ
-            // Òò´Ë¿ÉÒÔÖ±½ÓÍË³öÖØÆ½ºâ²Ù×÷
+            // åªè¦æŸä¸ªä¸å¹³è¡¡ç»“ç‚¹å¹³è¡¡äº†
+            // å…¶å¯¹åº”ç¥–å…ˆéƒ½ä¼šå¹³è¡¡
+            // å› æ­¤å¯ä»¥ç›´æ¥é€€å‡ºé‡å¹³è¡¡æ“ä½œ
             break;
-        }
-        else {
-            // ÒòÎª²åÈë½áµãµÄ¸¸Ç×Ò»¶¨ÊÇÆ½ºâµÄ
-            // Òò´ËÖ»ĞèÒª¸üĞÂÆä¸ß¶È
-            // Êµ¼ÊÖØÆ½ºâÊÇ´ÓÆä×æ¸¸½áµã¿ªÊ¼
+        } else {
+            // å› ä¸ºæ’å…¥ç»“ç‚¹çš„çˆ¶äº²ä¸€å®šæ˜¯å¹³è¡¡çš„
+            // å› æ­¤åªéœ€è¦æ›´æ–°å…¶é«˜åº¦
+            // å®é™…é‡å¹³è¡¡æ˜¯ä»å…¶ç¥–çˆ¶ç»“ç‚¹å¼€å§‹
             this->updateHeight(p);
         }
     }

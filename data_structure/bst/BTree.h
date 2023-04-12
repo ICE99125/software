@@ -1,20 +1,23 @@
-#pragma once
+ï»¿#pragma once
 
-#include<iostream>
-#include<vector>
+#include <iostream>
+#include <vector>
 
-// B Ê÷½áµã
-template<class T>
+// B æ ‘ç»“ç‚¹
+template <class T>
 struct BTNode {
-    BTNode<T>* parent;
-    std::vector<T> key; // ¹Ø¼üÂë
+    BTNode<T>*              parent;
+    std::vector<T>          key; // å…³é”®ç 
     std::vector<BTNode<T>*> child;
-    BTNode() { parent = nullptr;  child.push_back(nullptr); };
+    BTNode() {
+        parent = nullptr;
+        child.push_back(nullptr);
+    };
     BTNode(T e, BTNode<T>* left = nullptr, BTNode<T>* right = nullptr);
     int search(const T& e) const;
 };
 
-template<class T>
+template <class T>
 inline BTNode<T>::BTNode(T e, BTNode<T>* left, BTNode<T>* right) {
     parent = nullptr;
     key.push_back(e);
@@ -24,68 +27,92 @@ inline BTNode<T>::BTNode(T e, BTNode<T>* left, BTNode<T>* right) {
     if (right) right->parent = this;
 }
 
-// ÔÚ¹Ø¼üÂëÏòÁ¿ÖĞË³Ğò²éÕÒÔªËØ
-template<class T>
+// åœ¨å…³é”®ç å‘é‡ä¸­é¡ºåºæŸ¥æ‰¾å…ƒç´ 
+template <class T>
 int BTNode<T>::search(const T& e) const {
     for (int i = 0; i < key.size(); i++) {
-        // Æ¥Åä¾Í·µ»ØÆäË÷Òı
-        // ²»Æ¥Åä·µ»Ø×îºóÒ»¸öĞ¡ÓÚ e µÄË÷Òı
-        if (e == key[i]) return i;
-        else if (e < key[i]) return i - 1;
+        // åŒ¹é…å°±è¿”å›å…¶ç´¢å¼•
+        // ä¸åŒ¹é…è¿”å›æœ€åä¸€ä¸ªå°äº e çš„ç´¢å¼•
+        if (e == key[i])
+            return i;
+        else if (e < key[i])
+            return i - 1;
     }
 
-    // e ±ÈËùÓĞ¹Ø¼üÂë¶¼´ó
-    // ·µ»Ø×îºóÒ»¸öÖµµÄË÷Òı
+    // e æ¯”æ‰€æœ‰å…³é”®ç éƒ½å¤§
+    // è¿”å›æœ€åä¸€ä¸ªå€¼çš„ç´¢å¼•
     return key.size() - 1;
 }
 
-
-// B Ê÷
-template<class T>
+// B æ ‘
+template <class T>
 class BTree {
-    int size; // ¹Ø¼üÂëÊı
-    int order; // ½×
+    int        size;  // å…³é”®ç æ•°
+    int        order; // é˜¶
     BTNode<T>* root;
     BTNode<T>* hot;
-    void solveOverFlow(BTNode<T>*);
-    void solveUnderFlow(BTNode<T>*);
-    void ASC(BTNode<T>* node) const;
-    void inOrder(BTNode<T>*) const;
-    void preOrder(BTNode<T>*) const;
-    void postOrder(BTNode<T>*) const;
-public:
-    BTree(int o) : order(o), size(0), hot(nullptr) { root = new BTNode<T>(); };
+    void       solveOverFlow(BTNode<T>*);
+    void       solveUnderFlow(BTNode<T>*);
+    void       ASC(BTNode<T>* node) const;
+    void       inOrder(BTNode<T>*) const;
+    void       preOrder(BTNode<T>*) const;
+    void       postOrder(BTNode<T>*) const;
+
+  public:
+    BTree(int o) : order(o), size(0), hot(nullptr) {
+        root = new BTNode<T>();
+    };
     BTNode<T>* search(const T&);
-    bool add(const T&);
-    bool erase(const T&);
-    void ASC() const { if (root->key.size()) ASC(root); else std::cout << "Null"; };
-    void inOrder() const { if (root->key.size()) inOrder(root); else std::cout << "Null"; };
-    void preOrder() const { if (root->key.size()) preOrder(root); else std::cout << "Null"; };
-    void postOrder() const { if (root->key.size()) postOrder(root); else std::cout << "Null"; };
+    bool       add(const T&);
+    bool       erase(const T&);
+    void       ASC() const {
+        if (root->key.size())
+            ASC(root);
+        else
+            std::cout << "Null";
+    };
+    void inOrder() const {
+        if (root->key.size())
+            inOrder(root);
+        else
+            std::cout << "Null";
+    };
+    void preOrder() const {
+        if (root->key.size())
+            preOrder(root);
+        else
+            std::cout << "Null";
+    };
+    void postOrder() const {
+        if (root->key.size())
+            postOrder(root);
+        else
+            std::cout << "Null";
+    };
 };
 
-// ÉÏÒç·ÖÁÑ
-template<class T>
+// ä¸Šæº¢åˆ†è£‚
+template <class T>
 void BTree<T>::solveOverFlow(BTNode<T>* node) {
-    if (node->child.size() > order) { // ·¢ÉúÉÏÒç
+    if (node->child.size() > order) { // å‘ç”Ÿä¸Šæº¢
         int mid = node->key.size() / 2;
 
-        // ·ÖÁÑ³öÓÒ×ÓÊ÷
+        // åˆ†è£‚å‡ºå³å­æ ‘
         BTNode<T>* right = new BTNode<T>();
-        int len = node->key.size() - mid - 1; // ÓÒ×ÓÊ÷ key µÄ¸öÊı
+        int        len   = node->key.size() - mid - 1; // å³å­æ ‘ key çš„ä¸ªæ•°
         for (int i = 0; i < len; i++) {
             right->key.insert(right->key.begin() + i, node->key[mid + 1]);
-            node->key.erase(node->key.begin() + (mid + 1)); // ²åÈëÓÒ×ÓÊ÷µÄÍ¬Ê±É¾µôÕâ¸öÔªËØ
+            node->key.erase(node->key.begin() + (mid + 1)); // æ’å…¥å³å­æ ‘çš„åŒæ—¶åˆ æ‰è¿™ä¸ªå…ƒç´ 
             right->child.insert(right->child.begin() + i, node->child[mid + 1]);
             node->child.erase(node->child.begin() + (mid + 1));
         }
-        // child ±È key ¶àÒ»¸ö(×¢ÒâÕâÀï²»ÊÇ²åÈë, ¶øÊÇÌæ»», new µÄÊ±ºòÒÑ¾­ÓĞÒ»¸ö×Ó½áµã)
+        // child æ¯” key å¤šä¸€ä¸ª(æ³¨æ„è¿™é‡Œä¸æ˜¯æ’å…¥, è€Œæ˜¯æ›¿æ¢, new çš„æ—¶å€™å·²ç»æœ‰ä¸€ä¸ªå­ç»“ç‚¹)
         right->child[len] = node->child[mid + 1];
         node->child.erase(node->child.begin() + (mid + 1));
 
-        // Í³Ò»ÓÒ×ÓÊ÷µÄ¸¸½áµã
+        // ç»Ÿä¸€å³å­æ ‘çš„çˆ¶ç»“ç‚¹
         if (right->child[0]) {
-            // right ·ÇÒ¶½áµãÆä×Ó½áµã²ÅÓĞ¸¸½áµã
+            // right éå¶ç»“ç‚¹å…¶å­ç»“ç‚¹æ‰æœ‰çˆ¶ç»“ç‚¹
             for (int j = 0; j < right->child.size(); j++) {
                 right->child[j]->parent = right;
             }
@@ -93,123 +120,122 @@ void BTree<T>::solveOverFlow(BTNode<T>* node) {
 
         BTNode<T>* p = node->parent;
         if (!p) {
-            // Èç¹ûµ±Ç°½áµãÊÇ¸ù½áµã
-            // ĞÂ½¨Ò»¸öĞÂ½áµã×÷ÎªĞÂ¸ù½áµã
-            root = p = new BTNode<T>();
-            p->child[0] = node;
+            // å¦‚æœå½“å‰ç»“ç‚¹æ˜¯æ ¹ç»“ç‚¹
+            // æ–°å»ºä¸€ä¸ªæ–°ç»“ç‚¹ä½œä¸ºæ–°æ ¹ç»“ç‚¹
+            root = p     = new BTNode<T>();
+            p->child[0]  = node;
             node->parent = p;
         }
 
         int r = p->search(node->key[mid]);
         p->key.insert(p->key.begin() + (r + 1), node->key[mid]);
-        // ²»ÒªÍüÁËÉ¾³ı mid ÔªËØ
+        // ä¸è¦å¿˜äº†åˆ é™¤ mid å…ƒç´ 
         node->key.erase(node->key.begin() + mid);
         p->child.insert(p->child.begin() + (r + 2), right);
-        // ¹ØÁªÓÒ×ÓÊ÷
+        // å…³è”å³å­æ ‘
         right->parent = p;
 
-        // µü´úÉÏÒç¼ì²â¸¸½áµã
+        // è¿­ä»£ä¸Šæº¢æ£€æµ‹çˆ¶ç»“ç‚¹
         solveOverFlow(p);
     }
 }
 
-// ÏÂÒçºÏ²¢
-template<class T>
+// ä¸‹æº¢åˆå¹¶
+template <class T>
 void BTree<T>::solveUnderFlow(BTNode<T>* node) {
-    if ((order + 1) / 2 > node->child.size()) { // ·¢ÉúÏÂÒç
+    if ((order + 1) / 2 > node->child.size()) { // å‘ç”Ÿä¸‹æº¢
 
         BTNode<T>* p = node->parent;
-        if (!p) { // Èô node ÊÇ¸ù½áµã
+        if (!p) { // è‹¥ node æ˜¯æ ¹ç»“ç‚¹
             if (!node->key.size() && node->child[0]) {
-                // ²¢ÇÒ½áµãÊıÎª¿Õ, µ«ÊÇÆä´æÔÚ·Ç¿Õº¢×Ó
-                // root Ö¸ÏòÆä·Ç¿Õº¢×Ó
-                root = node->child[0];
+                // å¹¶ä¸”ç»“ç‚¹æ•°ä¸ºç©º, ä½†æ˜¯å…¶å­˜åœ¨éç©ºå­©å­
+                // root æŒ‡å‘å…¶éç©ºå­©å­
+                root         = node->child[0];
                 root->parent = nullptr;
                 delete node;
             }
             return;
         }
 
-        // node ÊÇ p µÄµÚ r ¸öº¢×Ó
+        // node æ˜¯ p çš„ç¬¬ r ä¸ªå­©å­
         int r = 0;
         while (p->child[r] != node) {
             r++;
         }
 
-        // Ğı×ª
-        if (r > 0) { // node ·ÇµÚÒ»¸öº¢×Ó
-            BTNode<T>* ls = p->child[r - 1]; // ÏÈ¿´×óĞÖµÜ
+        // æ—‹è½¬
+        if (r > 0) {                         // node éç¬¬ä¸€ä¸ªå­©å­
+            BTNode<T>* ls = p->child[r - 1]; // å…ˆçœ‹å·¦å…„å¼Ÿ
 
-            if ((order + 1) / 2 < ls->child.size()) { // ×óĞÖµÜÉÙÒ»¸ö²»»áÏÂÒç
-                // Ïò¸¸½áµã½èÒ»¸ö
+            if ((order + 1) / 2 < ls->child.size()) { // å·¦å…„å¼Ÿå°‘ä¸€ä¸ªä¸ä¼šä¸‹æº¢
+                // å‘çˆ¶ç»“ç‚¹å€Ÿä¸€ä¸ª
                 node->key.insert(node->key.begin(), p->key[r - 1]);
-                // ĞÖµÜ½áµã×î´óÖµ¸ø¸¸½áµã
+                // å…„å¼Ÿç»“ç‚¹æœ€å¤§å€¼ç»™çˆ¶ç»“ç‚¹
                 p->key[r - 1] = ls->key.back();
                 ls->key.pop_back();
-                // ĞÖµÜ×îºóÒ»¸öº¢×Ó¹ı¼Ì¸ø node
+                // å…„å¼Ÿæœ€åä¸€ä¸ªå­©å­è¿‡ç»§ç»™ node
                 node->child.insert(node->child.begin(), ls->child.back());
-                ls->child.pop_back(); // ²»ÒªÍüÁËÉ¾³ı×óĞÖµÜ×îºóÒ»¸öº¢×Ó
-                // Èç¹ûº¢×Ó²»Îª null, »¹ÒªĞŞ¸ÄÆä¸¸Ç×
+                ls->child.pop_back(); // ä¸è¦å¿˜äº†åˆ é™¤å·¦å…„å¼Ÿæœ€åä¸€ä¸ªå­©å­
+                // å¦‚æœå­©å­ä¸ä¸º null, è¿˜è¦ä¿®æ”¹å…¶çˆ¶äº²
                 if (node->child[0]) node->child[0]->parent = node;
                 return;
             }
         }
 
         if (r < p->child.size() - 1) {
-            BTNode<T>* rs = p->child[r + 1]; // ¿´¿´ÓÒĞÖµÜ
+            BTNode<T>* rs = p->child[r + 1]; // çœ‹çœ‹å³å…„å¼Ÿ
 
             if ((order + 1) / 2 < rs->child.size()) {
-                // Íù node µÄ×îºóÎ»ÖÃ²åÈë¸¸½áµãÖµ
+                // å¾€ node çš„æœ€åä½ç½®æ’å…¥çˆ¶ç»“ç‚¹å€¼
                 node->key.push_back(p->key[r]);
-                // ÓÒĞÖµÜ½«µÚÒ»¸öÖµ¸ø¸¸½áµã
+                // å³å…„å¼Ÿå°†ç¬¬ä¸€ä¸ªå€¼ç»™çˆ¶ç»“ç‚¹
                 p->key[r] = rs->key[0];
-                // É¾³ıÓÒĞÖµÜµÚÒ»¸ö½áµã
+                // åˆ é™¤å³å…„å¼Ÿç¬¬ä¸€ä¸ªç»“ç‚¹
                 rs->key.erase(rs->key.begin());
-                // ½«ÓÒĞÖµÜµÄµÚÒ»¸öº¢×Ó¹ı¼Ì¸ø node
+                // å°†å³å…„å¼Ÿçš„ç¬¬ä¸€ä¸ªå­©å­è¿‡ç»§ç»™ node
                 node->child.push_back(rs->child[0]);
-                rs->child.erase(rs->child.begin()); // ²»ÒªÍüÁË°ÑÓÒĞÖµÜµÚÒ»¸öº¢×ÓÉ¾³ı
+                rs->child.erase(rs->child.begin()); // ä¸è¦å¿˜äº†æŠŠå³å…„å¼Ÿç¬¬ä¸€ä¸ªå­©å­åˆ é™¤
                 if (node->child.back()) node->child.back()->parent = node;
                 return;
             }
         }
 
-        // ºÏ²¢
+        // åˆå¹¶
         if (r > 0) {
             BTNode<T>* ls = p->child[r - 1];
-            // ×óĞÖµÜ¼ÓÈëÕ³ºÏ¼Á
+            // å·¦å…„å¼ŸåŠ å…¥ç²˜åˆå‰‚
             ls->key.push_back(p->key[r - 1]);
-            // ½«×÷ÎªÕ³ºÏ¼ÁµÄ¸¸½áµãµÄ¹Ø¼üÂë´Ó¸¸½áµãÖĞÒÆ³ı
+            // å°†ä½œä¸ºç²˜åˆå‰‚çš„çˆ¶ç»“ç‚¹çš„å…³é”®ç ä»çˆ¶ç»“ç‚¹ä¸­ç§»é™¤
             p->key.erase(p->key.begin() + (r - 1));
-            // ½« node ´Ó p.child ÖĞÒÆ³ı
+            // å°† node ä» p.child ä¸­ç§»é™¤
             p->child.erase(p->child.begin() + r);
 
-            // ÒòÎª child ×ÜÊÇ±È key ¶àÒ»¸ö, ÎªÅäºÏ while Ğ´³öÀ´Ò»¸ö
+            // å› ä¸º child æ€»æ˜¯æ¯” key å¤šä¸€ä¸ª, ä¸ºé…åˆ while å†™å‡ºæ¥ä¸€ä¸ª
             ls->child.push_back(node->child[0]);
             node->child.erase(node->child.begin());
             if (ls->child.back()) {
                 ls->child.back()->parent = ls;
             }
-            // ½« node Ê£Óàº¢×ÓÖğ²½¹ı¼Ì¸ø×óĞÖµÜ
+            // å°† node å‰©ä½™å­©å­é€æ­¥è¿‡ç»§ç»™å·¦å…„å¼Ÿ
             while (!node->key.empty()) {
                 ls->key.push_back(node->key[0]);
                 node->key.erase(node->key.begin());
                 ls->child.push_back(node->child[0]);
                 node->child.erase(node->child.begin());
-                // Èç¹ûº¢×Ó²»Îª null, Æä¸¸Ç×¸Ä³É×óĞÖµÜ
+                // å¦‚æœå­©å­ä¸ä¸º null, å…¶çˆ¶äº²æ”¹æˆå·¦å…„å¼Ÿ
                 if (ls->child.back()) {
                     ls->child.back()->parent = ls;
                 }
             }
             delete node;
-        }
-        else {
+        } else {
             BTNode<T>* rs = p->child[r + 1];
             node->key.push_back(p->key[r]);
             p->key.erase(p->key.begin() + r);
-            // ½«ÓÒĞÖµÜ´Ó¸¸½áµãÖĞÉ¾³ı
+            // å°†å³å…„å¼Ÿä»çˆ¶ç»“ç‚¹ä¸­åˆ é™¤
             p->child.erase(p->child.begin() + (r + 1));
 
-            // ½«ÓÒĞÖµÜµÄº¢×Ó¹ı¼Ì¸ø node
+            // å°†å³å…„å¼Ÿçš„å­©å­è¿‡ç»§ç»™ node
             node->child.push_back(rs->child[0]);
             rs->child.erase(rs->child.begin());
             if (node->child.back()) node->child.back()->parent = node;
@@ -222,13 +248,13 @@ void BTree<T>::solveUnderFlow(BTNode<T>* node) {
             }
             delete rs;
         }
-        // p É¾µôÒ»¸ö½áµãºó¿ÉÄÜ³öÏÖÏÂÒç
+        // p åˆ æ‰ä¸€ä¸ªç»“ç‚¹åå¯èƒ½å‡ºç°ä¸‹æº¢
         solveUnderFlow(p);
     }
 }
 
-// ÉıĞòÊä³ö½áµã
-template<class T>
+// å‡åºè¾“å‡ºç»“ç‚¹
+template <class T>
 void BTree<T>::ASC(BTNode<T>* node) const {
     if (node) {
         int i = 0;
@@ -240,8 +266,8 @@ void BTree<T>::ASC(BTNode<T>* node) const {
     }
 }
 
-// ÖĞĞò±éÀú
-template<class T>
+// ä¸­åºéå†
+template <class T>
 void BTree<T>::inOrder(BTNode<T>* node) const {
     if (node) {
         inOrder(node->child[0]);
@@ -257,8 +283,8 @@ void BTree<T>::inOrder(BTNode<T>* node) const {
     }
 }
 
-// Ç°Ğò±éÀú
-template<class T>
+// å‰åºéå†
+template <class T>
 void BTree<T>::preOrder(BTNode<T>* node) const {
     if (node) {
         std::cout << "[";
@@ -273,8 +299,8 @@ void BTree<T>::preOrder(BTNode<T>* node) const {
     }
 }
 
-// ºóĞò±éÀú
-template<class T>
+// ååºéå†
+template <class T>
 void BTree<T>::postOrder(BTNode<T>* node) const {
     if (node) {
         for (int j = 0; j < node->child.size(); j++) {
@@ -289,68 +315,67 @@ void BTree<T>::postOrder(BTNode<T>* node) const {
     }
 }
 
-// ËÑË÷ÔªËØ
-template<class T>
+// æœç´¢å…ƒç´ 
+template <class T>
 BTNode<T>* BTree<T>::search(const T& e) {
     BTNode<T>* v = root;
-    hot = nullptr;
+    hot          = nullptr;
 
     while (v) {
         int r = v->search(e);
-        if (r >= 0 && e == v->key[r]) return v; // ÕÒµ½ÔªËØ
+        if (r >= 0 && e == v->key[r]) return v; // æ‰¾åˆ°å…ƒç´ 
 
-        // hot ±£´æ e µÄ¸¸½áµã(µ± e ÔÚÊ÷ÖĞ)
-        // »òÕß e ËùÓ¦¸ÃÔÚµÄ½áµã(µ± e ²»ÔÚÊ÷ÖĞ)
-        // ¼´ v->child[r] == null, hot Ö¸ÏòÒ¶½áµã
+        // hot ä¿å­˜ e çš„çˆ¶ç»“ç‚¹(å½“ e åœ¨æ ‘ä¸­)
+        // æˆ–è€… e æ‰€åº”è¯¥åœ¨çš„ç»“ç‚¹(å½“ e ä¸åœ¨æ ‘ä¸­)
+        // å³ v->child[r] == null, hot æŒ‡å‘å¶ç»“ç‚¹
         hot = v;
-        v = v->child[r + 1];
+        v   = v->child[r + 1];
     }
 
     return nullptr;
 }
 
-// ¼ÓÈë½áµã
-template<class T>
+// åŠ å…¥ç»“ç‚¹
+template <class T>
 bool BTree<T>::add(const T& e) {
     BTNode<T>* v = search(e);
-    if (v) return false; // ½áµãÖØ¸´, ²åÈëÊ§°Ü
+    if (v) return false; // ç»“ç‚¹é‡å¤, æ’å…¥å¤±è´¥
 
     int r = hot->search(e);
     hot->key.insert(hot->key.begin() + (r + 1), e);
     hot->child.insert(hot->child.begin() + (r + 2), nullptr);
 
     size++;
-    solveOverFlow(hot); // ÉÏÒç·ÖÁÑ
+    solveOverFlow(hot); // ä¸Šæº¢åˆ†è£‚
     return true;
 }
 
-// É¾³ı½áµã
-template<class T>
+// åˆ é™¤ç»“ç‚¹
+template <class T>
 bool BTree<T>::erase(const T& e) {
-    BTNode<T>* v = search(e); // ²éÕÒ±»É¾ÔªËØ
+    BTNode<T>* v = search(e); // æŸ¥æ‰¾è¢«åˆ å…ƒç´ 
     if (!v) return false;
-    
-    int r = v->search(e); // Õâ¸öÎ»ÖÃ¿Ï¶¨ÊÇ¾«È·µÄ
-    //std::cout << "ÕÒµ½±»É¾ÔªËØ" << e << "Î»ÖÃ" << r << "ÔªËØ¸¸½Úµã" << v->parent << "\n";
-    
+
+    int r = v->search(e); // è¿™ä¸ªä½ç½®è‚¯å®šæ˜¯ç²¾ç¡®çš„
+    // std::cout << "æ‰¾åˆ°è¢«åˆ å…ƒç´ " << e << "ä½ç½®" << r << "å…ƒç´ çˆ¶èŠ‚ç‚¹" << v->parent << "\n";
+
     if (v->child[0]) {
-        // v ·ÇÒ¶½áµã
+        // v éå¶ç»“ç‚¹
         BTNode<T>* u = v->child[r + 1];
         while (u->child[0]) {
             u = u->child[0];
         }
         v->key[r] = u->key[0];
-        v = u;
-        r = 0;
+        v         = u;
+        r         = 0;
     }
 
     v->key.erase(v->key.begin() + r);
-    // É¾ÄÄ¸ö¶¼¿ÉÒÔ, Ò¶½áµãµÄ child ¶¼ÊÇ nullptr
+    // åˆ å“ªä¸ªéƒ½å¯ä»¥, å¶ç»“ç‚¹çš„ child éƒ½æ˜¯ nullptr
     v->child.erase(v->child.begin() + r);
     size--;
 
-    solveUnderFlow(v); // ÏÂÒçºÏ²¢
+    solveUnderFlow(v); // ä¸‹æº¢åˆå¹¶
 
     return true;
 }
-
