@@ -30,7 +30,7 @@
 
 ### 抽象语法树
 
-![效果图](/assets/case2.png)
+![效果图](./assets/case2.png)
 
 ### 依赖安装
 
