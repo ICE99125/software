@@ -5,7 +5,7 @@
   <div>A repository for course design</div>
 </div>
 
-# Catalogue
+## Catalogue
 
 - [人工智能实验](./ai) 八数码问题/机器学习
 
