@@ -2,7 +2,7 @@
 
 ## 在线预览
 
-[点击进入](https://ai-homework.vercel.app/)
+[点击进入](https://eight-puzzle.netlify.app)
 
 ![demo1](./public/demo1.png)
 
