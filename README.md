@@ -18,3 +18,5 @@
 - [数据结构实现](./data_structure) 二叉树/avl 树/B 树/红黑树
 
 - [并行与程序设计](./parallel) pthread/mpi/openmp/sse
+
+- [软件工程课设](https://github.com/arcturus-org/fyjlsq) 非物质文化遗产交流社区
