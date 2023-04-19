@@ -109,9 +109,6 @@ Pair closet_pair(std::vector<Point>& p) {
         }
     }
 
-    // 右侧点集按照 y 坐标排序
-    std::sort(right.begin(), right.end(), Point::compareY);
-
     // 遍历左边的点, 查看有没有距离右边 best 内的点
     for (int i = 0; i < left.size(); i++) {
         for (int j = 0; j < right.size(); j++) {
