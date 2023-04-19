@@ -21,5 +21,5 @@ void lab02() {
 
     std::cin >> power;
 
-    std::cout << std::fixed << std::setprecision(2) << getPower(base, power);
+    output(getPower(base, power), 2);
 }
