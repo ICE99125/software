@@ -117,7 +117,9 @@ Pair closet_pair(std::vector<Point>& p) {
         for (int j = 0; j < right.size(); j++) {
             if (right[j].y < left[i].y + best && right[j].y > left[i].y - best) {
                 // 仅计算右侧点在 [y - d, y + d] 范围内的
-                if (Pair::calc_distance(left[i], right[j]) < best) {
+                double d = Pair::calc_distance(left[i], right[j]);
+                if (d < best) {
+                    best = d;
                     res = Pair(left[i], right[j]);
                 }
             }
