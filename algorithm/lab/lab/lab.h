@@ -1,20 +1,15 @@
-#pragma once
+ï»¿#pragma once
 
 #include "stdc++.h"
 
-// lab01: ¿ìËÙÅÅĞò
-int partition(std::vector<int>& array, int left, int right);
-void qSort(std::vector<int>& array, std::vector<int>& base, int left, int right);
+// å¿«é€Ÿæ’åº
 void lab01();
 
-// lab02: ¿ìËÙÃİ
-double getPower(double x, int p);
+// å¿«é€Ÿå¹‚
 void lab02();
 
-// lab03: µÚ k Ğ¡µÄÊı
-int find_median(std::vector<int>& array, int start, int num);
-int search_k(std::vector<int>& array, int k);
+// ç¬¬ k å°çš„æ•°
 void lab03();
 
-// lab04: Æ½Ãæ×îÁÚ½üµã¶Ô
+// å¹³é¢æœ€é‚»è¿‘ç‚¹å¯¹
 void lab04();
