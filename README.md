@@ -15,3 +15,4 @@
 - [并行与程序设计](./parallel) pthread/mpi/openmp/sse
 - [软件工程课设](https://github.com/arcturus-org/fyjlsq) 非物质文化遗产交流社区
 - [算法导论](./algorithm) 一些算法实现以及实验代码
+- [Python实验](./python) 一些 python 课堂作业
