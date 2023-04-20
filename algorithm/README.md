@@ -13,3 +13,7 @@
 - [lab03](./lab/lab/lab03.cpp) 第 k 小数
 
 - [lab04](./lab/lab/lab04.cpp) 平面最邻近点对
+
+## 学习笔记
+
+点击查看[掘金专栏](https://juejin.cn/column/7208817904547446840)
