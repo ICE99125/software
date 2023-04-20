@@ -26,3 +26,5 @@
 - [Python 实验](./python) 一些 python 课堂作业
 
 - [前端课程设计](https://github.com/arcturus-org/weather/tree/flutter-1.0) 使用 flutter 实现的天气 App
+
+- [机器学习实验](./machine_learning)
