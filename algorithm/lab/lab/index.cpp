@@ -36,7 +36,7 @@ int main() {
     test.add("lab04", lab04);
 
     // 设置当前需要执行的方法
-    test.set("lab04");
+    test.set("lab03");
     
     test.operation();
 

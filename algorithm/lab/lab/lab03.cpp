@@ -1,78 +1,82 @@
-#include "lab.h"
+ï»¿#include "lab.h"
 
-// Ä¬ÈÏÎå¸öÒ»×é, ÇóÖĞÎ»Êı
-int find_median(std::vector<int>& array, int start, int num = 5) {
-	std::vector<int> temp;
+// æ±‚æ•°ç»„çš„ä¸­ä½æ•°
+int find_median(std::vector<int>& array, int left, int right) {
+    if (right > array.size()) {
+        right = array.size();
+    }
 
-	int len = array.size();
+    std::sort(array.begin() + left, array.begin() + right);
 
-	for (int i = start; i < start + num && i < len; i++) {
-		temp.push_back(array[i]);
-	}
-
-	std::sort(temp.begin(), temp.end());
-
-	return temp[temp.size() / 2];
+    return array[(right + left) / 2];
 }
 
-int search_k(std::vector<int>& array, int k) {
-	std::vector<int> M;
+int select(std::vector<int>& S, int k) {
+    if (S.size() == 1) return S[0];
 
-	for (int i = 0; i < array.size(); i += 5) {
-		// ·Ö×é, Ã¿×éµÄÖĞÎ»Êı·ÅÈë M
-		M.push_back(find_median(array, i));
-	}
+    std::vector<int> M;
 
-	// ´ÓÖĞÎ»ÊıÖĞ²éÕÒÖĞÎ»Êı
-	int m = find_median(M, 0, M.size());
+    for (int i = 0; i < S.size(); i += 5) {
+        M.push_back(find_median(S, i, i + 5));
+    }
 
-	std::vector<int> S1, S2;
+    // ä»ä¸­ä½æ•°ä¸­æŸ¥æ‰¾ä¸­ä½æ•°
+    int m = select(M, (M.size() + 1) / 2);
 
-	int flags = 0;
+    std::vector<int> S1, S2;
 
-	// ½«ÔªËØ·Ö×é, Ğ¡ÓÚÖĞÎ»ÊıµÄ·ÅÈë S1, ´óÓÚÖĞÎ»ÊıµÄ·ÅÈë S2
-	for (int i = 0; i < array.size(); i++) {
-		if (array[i] <= m) {
-			S1.push_back(array[i]);
+    int flags = -1;
 
-			if (array[i] == m) {
-				flags = S1.size() - 1;
-			}
-		}
-		else if (array[i] > m) {
-			S2.push_back(array[i]);
-		}
-	}
+    // å°†å…ƒç´ åˆ†ç»„
+    for (int i = 0; i < S.size(); i++) {
+        if (S[i] <= m) {
+            // å°äºç­‰äºä¸­ä½æ•°çš„æ”¾å…¥ S1
+            S1.push_back(S[i]);
 
-	S1.erase(S1.begin() + flags); // É¾³ı×îºóÒ»¸öÖĞÎ»Êı
+            if (S[i] == m) {
+                // æ ‡è®°æœ€åä¸€ä¸ªä¸­ä½æ•°çš„ä½ç½®
+                flags = S1.size() - 1;
+            }
+        }
+        else if (S[i] > m) {
+            // å¤§äºä¸­ä½æ•°çš„æ”¾å…¥ S2
+            S2.push_back(S[i]);
+        }
+    }
 
-	if (k == S1.size() + 1) {
-		return m;
-	}
-	else if (k <= S1.size()) {
-		return search_k(S1, k);
-	}
-	else {
-		return search_k(S2, k - S1.size() - 1);
-	}
+    S1.erase(S1.begin() + flags); // åˆ é™¤ä¸€ä¸ªä¸­ä½æ•°
+
+    if (k == S1.size() + 1) {
+        return m;
+    }
+    else if (k <= S1.size()) {
+        return select(S1, k);
+    }
+    else {
+        return select(S2, k - S1.size() - 1);
+    }
 }
 
 void lab03() {
-	std::vector<int> array;
+    std::vector<int> S;
 
-	int temp;
+    int temp;
 
-	while (std::cin >> temp) {
-		array.push_back(temp);
+    while (std::cin >> temp) {
+        S.push_back(temp);
 
-		if (std::cin.get() == '\n') {
-			break;
-		}
-	}
+        //if (std::cin.get() == '\n') {
+        //    break;
+        //}
+    }
 
-	int k;
+    //int k;
 
-	std::cin >> k;
+    //std::cin >> k;
 
-	std::cout << search_k(array, k);
+    // è¿™é‡Œå¯èƒ½éœ€è¦è¿™æ ·, å¦åˆ™ oj æ— æ³•é€šè¿‡...
+    int k = S[S.size() - 1];
+    S.pop_back();
+
+    output(select(S, k));
 }
