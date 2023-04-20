@@ -2,7 +2,7 @@
 
 <div align="center">
   <h1>software</h1>
-  <div>A repository for course design</div>
+  <div>A repository for the course design, as a commemoration of my second bachelor's degree study life.</div>
 </div>
 
 ## Catalogue
