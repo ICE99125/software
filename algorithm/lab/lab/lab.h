@@ -13,3 +13,9 @@ void lab03();
 
 // 平面最邻近点对
 void lab04();
+
+// 最长公共子序列
+void lab05();
+
+// 矩阵连乘
+void lab06();
