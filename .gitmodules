@@ -1,10 +1,10 @@
 [submodule "software_engineering"]
-	path = software_engineering
-	url = https://github.com/arcturus-org/fyjlsq.git
+	path = software
+	url = https://github.com/arcturus-school/fyjlsq.git
 [submodule "gobang"]
 	path = gobang
-	url = https://github.com/ICE99125/gobang.git
+	url = https://github.com/arcturus-school/gobang.git
 [submodule "front_end"]
-	path = front_end
-	url = https://github.com/arcturus-org/weather.git
-	branch = flutter-1.0
+	path = frontend
+	url = https://github.com/arcturus-weather/flutter.git
+	branch = 1.0.0
