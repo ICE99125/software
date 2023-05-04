@@ -32,3 +32,6 @@
 [submodule "algorithm"]
 	path = algorithm
 	url = https://github.com/arcturus-school/algorithm.git
+[submodule "ai"]
+	path = ai
+	url = https://github.com/arcturus-school/ai.git
