@@ -31,3 +31,7 @@
 [submodule "ai"]
 	path = ai
 	url = https://github.com/arcturus-school/ai.git
+[submodule "frontend"]
+	path = frontend
+	url = https://github.com/arcturus-weather/flutter.git
+	branch = 1.0.0
