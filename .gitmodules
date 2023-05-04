@@ -23,3 +23,6 @@
 [submodule "data_structure"]
 	path = data_structure
 	url = https://github.com/arcturus-school/data_structure.git
+[submodule "compiler"]
+	path = compiler
+	url = https://github.com/arcturus-school/compiler.git
