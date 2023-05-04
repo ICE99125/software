@@ -14,3 +14,6 @@
 [submodule "parallel"]
 	path = parallel
 	url = https://github.com/arcturus-school/parallel.git
+[submodule "python"]
+	path = python
+	url = https://github.com/arcturus-school/python.git
