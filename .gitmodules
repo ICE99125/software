@@ -26,3 +26,6 @@
 [submodule "compiler"]
 	path = compiler
 	url = https://github.com/arcturus-school/compiler.git
+[submodule "testing"]
+	path = testing
+	url = https://github.com/arcturus-school/testing.git
