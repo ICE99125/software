@@ -17,3 +17,6 @@
 [submodule "python"]
 	path = python
 	url = https://github.com/arcturus-school/python.git
+[submodule "machine_learning"]
+	path = machine_learning
+	url = https://github.com/arcturus-school/machine_learning.git
