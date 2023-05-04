@@ -29,3 +29,6 @@
 [submodule "testing"]
 	path = testing
 	url = https://github.com/arcturus-school/testing.git
+[submodule "algorithm"]
+	path = algorithm
+	url = https://github.com/arcturus-school/algorithm.git
