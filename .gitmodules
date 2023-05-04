@@ -1,4 +1,4 @@
-[submodule "software_engineering"]
+[submodule "software"]
 	path = software
 	url = https://github.com/arcturus-school/fyjlsq.git
 [submodule "gobang"]
