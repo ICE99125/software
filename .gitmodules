@@ -20,3 +20,6 @@
 [submodule "machine_learning"]
 	path = machine_learning
 	url = https://github.com/arcturus-school/machine_learning.git
+[submodule "data_structure"]
+	path = data_structure
+	url = https://github.com/arcturus-school/data_structure.git
