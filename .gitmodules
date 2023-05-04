@@ -4,10 +4,6 @@
 [submodule "gobang"]
 	path = gobang
 	url = https://github.com/arcturus-school/gobang.git
-[submodule "front_end"]
-	path = frontend
-	url = https://github.com/arcturus-weather/flutter.git
-	branch = 1.0.0
 [submodule "osLab"]
 	path = osLab
 	url = https://github.com/arcturus-school/minishell.git
