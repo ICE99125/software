@@ -30,3 +30,5 @@
 - [前端课程设计](https://github.com/arcturus-weather/flutter/tree/1.0.0) 使用 flutter 实现的天气 App
 
 - [机器学习实验](https://github.com/arcturus-school/machine_learning) 线性回归/逻辑回归/支持向量机/神经网络
+
+- [软件测试实验](https://github.com/arcturus-school/testing) ebpf + prometheus + vue
